@@ -25,7 +25,6 @@
         <module>common/proto-common</module>
         <module>common/java-common</module>
 
-        <module>infra/config-server</module>
         <module>infra/eureka-server</module>
         <module>infra/gateway-service</module>
 

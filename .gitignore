@@ -34,7 +34,6 @@ bin/
 
 # Protobufs (generated files)
 *.pb.*
-*.java
 
 # Logs and temporary files
 *.tmp
