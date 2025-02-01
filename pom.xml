@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.nm.order.management</groupId>
+    <artifactId>OrderManagement</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <description>Aggregator pom project for all services</description>
+
+    <properties>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <modules>
+        <module>base/build-chassis</module>
+        <module>base/orchestra-chassis</module>
+        <module>base/service-chassis</module>
+        <module>base/gateway-chassis</module>
+
+        <module>common/proto-common</module>
+        <module>common/java-common</module>
+
+        <module>infra/config-server</module>
+        <module>infra/eureka-server</module>
+        <module>infra/gateway-service</module>
+
+
+        <module>services/analytics-service</module>
+        <module>services/product-service</module>
+        <module>services/order-service</module>
+        <module>services/notification-service</module>
+        <module>services/user-service</module>
+    </modules>
+
+</project>

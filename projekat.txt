@@ -1,0 +1,72 @@
+Project: Smart Order Management System (SOMS)
+Concept
+The SOMS application is a distributed system for managing product orders in an e-commerce setup. It demonstrates how services can collaborate using Eureka for service discovery, gRPC for inter-service communication, and Kafka for event-driven processing.
+
+Services Overview
+User Service
+
+Responsibility: Manage user profiles and authentication.
+Communication: Provides user details to the Order Service via gRPC.
+Example API:
+getUserDetails(userId): User (gRPC)
+Product Service
+
+Responsibility: Manage product inventory and pricing.
+Communication: Exposes APIs to fetch product details via gRPC.
+Example API:
+getProductDetails(productId): Product (gRPC)
+updateStock(productId, quantity) (gRPC)
+Order Service
+
+Responsibility: Handles order placement and updates.
+Communication:
+Uses gRPC to fetch user and product details from the respective services.
+Publishes order-related events (e.g., "Order Created", "Order Processed") to Kafka.
+Example Flow:
+A new order is created, and the Order Service verifies user and product details.
+Once verified, an event is published to Kafka for further processing.
+Notification Service
+
+Responsibility: Sends notifications (e.g., email or SMS) for order updates.
+Communication:
+Subscribes to Kafka topics like OrderCreated and OrderProcessed.
+Example Flow:
+Listens to OrderCreated topic and sends an email confirmation to the user.
+Analytics Service
+
+Responsibility: Generates insights based on order data.
+Communication:
+Consumes Kafka topics for order events to track sales trends and stock insights.
+Architecture
+Service Discovery:
+All services are registered with Eureka Server for dynamic discovery. Services can locate each other via Eureka, making the system resilient to scaling and service restarts.
+
+Communication:
+
+gRPC: Used for synchronous, efficient communication between services like Order Service, User Service, and Product Service.
+Kafka: Handles asynchronous communication for event-driven updates (e.g., publishing order events, consuming them for notifications and analytics).
+Tech Stack
+Backend:
+Java with Spring Boot for gRPC services and Eureka integration.
+Kafka for messaging.
+Database:
+PostgreSQL/MySQL for relational data.
+Service Discovery:
+Eureka Server.
+Messaging:
+Kafka for event streaming.
+How to Structure
+Create Eureka Server
+
+Run a Eureka Server for service registration.
+Develop Services
+
+User Service: Implements gRPC endpoints to manage users.
+Product Service: Provides product details and stock updates via gRPC.
+Order Service: Acts as the central orchestrator for placing orders.
+Notification Service and Analytics Service: Kafka consumers for processing events.
+Integrate Kafka
+
+Define topics for order-related events like OrderCreated, OrderProcessed.
+Use Kafka Producer API for event publishing.
+Use Kafka Consumer API for processing events.

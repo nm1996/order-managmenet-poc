@@ -1,0 +1,53 @@
+# Java
+*.class
+*.log
+*.war
+*.ear
+*.jar
+*.jre
+target/
+bin/
+
+# Spring Boot
+**/target/
+**/out/
+*.iml
+.idea/
+.vscode/
+
+
+# Eclipse
+.project
+.classpath
+.settings/
+
+# Build tools
+/.mvn/
+!/mvnw
+!/mvnw.cmd
+/.gradle/
+/build/
+
+# Local configuration
+*.properties
+*.yml
+
+# Protobufs (generated files)
+*.pb.*
+*.java
+
+# Logs and temporary files
+*.tmp
+*.swp
+*.bak
+*.swo
+.DS_Store
+
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Gradle wrapper
+.gradle
+
