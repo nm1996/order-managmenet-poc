@@ -1,27 +1,21 @@
 package com.nm.order.management.common.config;
 
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
-@Getter
 @Configuration
 public class ServiceInfoConfig {
 
-    @Value("${service.info.user}")
-    private String userServiceName;
+    @Value("${nix.services}")
+    private List<String> services;
 
-    @Value("${service.info.product}")
-    private String productServiceName;
 
-    @Value("${service.info.order}")
-    private String orderServiceName;
-
-    @Value("${service.info.analytic}")
-    private String analyticServiceName;
-
-    @Value("${service.info.notification}")
-    private String notificationServiceName;
+    public Set<String> getAllServiceNames() {
+        return new HashSet<>(services);
+    }
 }

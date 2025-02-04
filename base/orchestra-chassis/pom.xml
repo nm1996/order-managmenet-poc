@@ -15,19 +15,15 @@
     <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <org.lombok.version>1.18.30</org.lombok.version>
+        <spring.eureka.version>4.2.0</spring.eureka.version>
     </properties>
-
 
     <dependencies>
         <!-- Eureka -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
-            <version>4.2.0</version>
+            <version>${spring.eureka.version}</version>
         </dependency>
 
         <!-- END -->

@@ -1,11 +1,13 @@
 package com.nm.order.management.common.grpc;
 
 
-import com.nm.order.management.common.cloud.ServiceCloudOrchestrator;
+import com.nm.order.management.common.cloud.service.ServiceCloudOrchestrator;
 import com.nm.order.management.common.exception.ServiceUnavailable;
 import io.grpc.ManagedChannel;
+import jakarta.annotation.PostConstruct;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.scheduling.annotation.Scheduled;
 
 import java.util.*;
 
@@ -14,41 +16,55 @@ import java.util.*;
 public abstract class AbstractServiceClient<T> implements AutoCloseable {
 
     private final ServiceCloudOrchestrator serviceCloudOrchestrator;
-    private final List<ManagedChannel> channels;
     private final Queue<T> stubs;
 
 
     public AbstractServiceClient(ServiceCloudOrchestrator serviceCloudOrchestrator) {
         this.serviceCloudOrchestrator = serviceCloudOrchestrator;
-        channels = new ArrayList<>();
         stubs = new LinkedList<>();
     }
 
+    @PostConstruct
+    public void establishConnection() {
+        try {
+            fetchAndCreateConnections();
+        } catch (ServiceUnavailable e) {
+            logErrorMessage();
+        }
+    }
 
-    public void getOrRefreshConnection() throws ServiceUnavailable {
-        List<ManagedChannel> channelList = serviceCloudOrchestrator.getOrCreateGrpcClient(getServiceName());
+    @Scheduled(fixedRate = 30_000)
+    public void tryToEstablishConnection() {
+        try {
+            fetchAndCreateConnections();
+        } catch (ServiceUnavailable e) {
+            logErrorMessage();
+        }
+    }
+
+    private void fetchAndCreateConnections() throws ServiceUnavailable {
+        Set<ManagedChannel> channelList = serviceCloudOrchestrator.getChannelsByServiceName(getServiceName());
         if (channelList.isEmpty()) {
             log.error("Service unavailable [service={}]", getServiceName());
-            throw new ServiceUnavailable(STR."\{getServiceName()} unavailable");
+            throw new ServiceUnavailable(String.format("%s unavailable", getServiceName()));
         }
 
-        channelList.forEach(chan -> {
-            channels.add(chan);
-            T stub = createStub(chan);
-            stubs.add(stub);
-        });
+        channelList.stream()
+                .filter(Objects::nonNull)
+                .forEach(chan -> {
+                    T stub = createStub(chan);
+                    stubs.add(stub);
+                });
     }
 
-    public boolean isServiceAvailable() {
-        return !stubs.isEmpty();
-    }
 
-    //TODO: TRY TO RECONNECT TO OTHER SERVICES
-    public T getNextServer() {
+    public T getNextServer() throws ServiceUnavailable {
+        if (stubs.isEmpty()) {
+            logErrorMessage();
+            throw new ServiceUnavailable("No server connections available");
+        }
+
         synchronized (stubs) {
-            if (stubs.isEmpty()) {
-                throw new ServiceUnavailable("No servers available");
-            }
             T server = stubs.poll();
             stubs.offer(server);
             return server;
@@ -57,8 +73,14 @@ public abstract class AbstractServiceClient<T> implements AutoCloseable {
 
 
     @Override
-    public void close() throws Exception {
-        channels.forEach(ManagedChannel::shutdown);
+    public void close() {
+        stubs.clear();
+        serviceCloudOrchestrator.shutdownConnections(getServiceName());
+    }
+
+
+    private void logErrorMessage() {
+        log.warn("Service unavailable [service={}]", getServiceName());
     }
 
     public abstract String getServiceName();

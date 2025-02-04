@@ -1,12 +1,11 @@
 package com.nm.order.management.gateway.infra.grpc.productservice;
 
-import com.nm.order.management.common.cloud.ServiceCloudOrchestrator;
+import com.nm.order.management.common.cloud.service.implementation.ServiceCloudOrchestratorImpl;
 import com.nm.order.management.common.grpc.AbstractServiceClient;
 import com.nm.order.management.proto_common.VersionRequest;
 import com.nm.order.management.proto_common.VersionResponse;
 import com.nm.order.management.proto_common.VersionServiceGrpc;
 import io.grpc.ManagedChannel;
-import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,14 +18,10 @@ public class ProductVersionServiceClient extends AbstractServiceClient<VersionSe
     private static final String SERVICE_NAME = "PRODUCT-SERVICE";
 
     @Autowired
-    public ProductVersionServiceClient(ServiceCloudOrchestrator serviceCloudOrchestrator) {
+    public ProductVersionServiceClient(ServiceCloudOrchestratorImpl serviceCloudOrchestrator) {
         super(serviceCloudOrchestrator);
     }
 
-    @PostConstruct
-    public void establishConnection() {
-        getOrRefreshConnection();
-    }
 
     @Override
     public String getServiceName() {

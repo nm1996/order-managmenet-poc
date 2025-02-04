@@ -1,17 +1,18 @@
-package com.nm.order.management.common.cloud;
+package com.nm.order.management.common.cloud.config;
 
 import io.netty.channel.ChannelOption;
 import io.netty.handler.timeout.ReadTimeoutHandler;
 import io.netty.handler.timeout.WriteTimeoutHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.client.reactive.ReactorClientHttpConnector;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.netty.http.client.HttpClient;
 
 import java.util.concurrent.TimeUnit;
 
-
+@EnableScheduling
 @Component
 public class ServiceCloudConfig {
 

@@ -1,6 +1,5 @@
 package com.nm.order.management.gateway.service;
 
-import com.nm.order.management.common.config.ServiceInfoConfig;
 import com.nm.order.management.gateway.api.model.response.GetVersionResponse;
 import com.nm.order.management.gateway.infra.grpc.analyticservice.AnalyticVersionServiceClient;
 import com.nm.order.management.gateway.infra.grpc.notificationservice.NotificationVersionServiceClient;
@@ -20,7 +19,6 @@ import java.util.Optional;
 @Service
 public class VersionService {
 
-    private final ServiceInfoConfig serviceInfoConfig;
     private final UserVersionServiceClient userVersionServiceClient;
     private final ProductVersionServiceClient productVersionServiceClient;
     private final OrderVersionServiceClient orderVersionServiceClient;
@@ -31,11 +29,11 @@ public class VersionService {
     public GetVersionResponse getVersions() {
         Map<String, String> versions = new HashMap<>();
 
-        setVersionToResponse(versions, serviceInfoConfig.getUserServiceName(), userVersionServiceClient.getVersion());
-        setVersionToResponse(versions, serviceInfoConfig.getProductServiceName(), productVersionServiceClient.getVersion());
-        setVersionToResponse(versions, serviceInfoConfig.getOrderServiceName(), orderVersionServiceClient.getVersion());
-        setVersionToResponse(versions, serviceInfoConfig.getNotificationServiceName(), notificationVersionServiceClient.getVersion());
-        setVersionToResponse(versions, serviceInfoConfig.getAnalyticServiceName(), analyticVersionServiceClient.getVersion());
+        setVersionToResponse(versions, "USER-SERVICE", userVersionServiceClient.getVersion());
+        setVersionToResponse(versions, "PRODUCT-SERVICE", productVersionServiceClient.getVersion());
+        setVersionToResponse(versions, "ORDER-SERVICE", orderVersionServiceClient.getVersion());
+        setVersionToResponse(versions, "NOTIFICATION-SERVICE", notificationVersionServiceClient.getVersion());
+        setVersionToResponse(versions, "ANALYTICS-SERVICE", analyticVersionServiceClient.getVersion());
 
         return new GetVersionResponse(versions);
     }
