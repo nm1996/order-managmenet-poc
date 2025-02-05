@@ -1,6 +1,7 @@
 package com.nm.order.management.gateway;
 
 import com.nm.order.management.common.config.CloudConfig;
+import com.nm.order.management.common.config.MapperConfig;
 import com.nm.order.management.common.config.ServiceInfoConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -9,7 +10,8 @@ import org.springframework.context.annotation.Import;
 
 @Import({
         CloudConfig.class,
-        ServiceInfoConfig.class
+        ServiceInfoConfig.class,
+        MapperConfig.class
 })
 @EnableDiscoveryClient
 @SpringBootApplication

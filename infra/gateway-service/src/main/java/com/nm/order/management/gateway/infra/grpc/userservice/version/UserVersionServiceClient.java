@@ -1,10 +1,10 @@
-package com.nm.order.management.gateway.infra.grpc.userservice;
+package com.nm.order.management.gateway.infra.grpc.userservice.version;
 
-import com.nm.order.management.common.grpc.AbstractServiceClient;
 import com.nm.order.management.common.cloud.service.implementation.ServiceCloudOrchestratorImpl;
-import com.nm.order.management.proto_common.VersionRequest;
-import com.nm.order.management.proto_common.VersionResponse;
-import com.nm.order.management.proto_common.VersionServiceGrpc;
+import com.nm.order.management.gateway.infra.grpc.userservice.UserAbstractServiceClient;
+import com.nm.order.management.proto_common.common.VersionRequest;
+import com.nm.order.management.proto_common.common.VersionResponse;
+import com.nm.order.management.proto_common.common.VersionServiceGrpc;
 import io.grpc.ManagedChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,19 +14,12 @@ import java.util.Optional;
 
 @Slf4j
 @Service
-public class UserVersionServiceClient extends AbstractServiceClient<VersionServiceGrpc.VersionServiceBlockingStub> {
+public class UserVersionServiceClient extends UserAbstractServiceClient<VersionServiceGrpc.VersionServiceBlockingStub> {
 
-    private static final String SERVICE_NAME = "USER-SERVICE";
 
     @Autowired
     public UserVersionServiceClient(ServiceCloudOrchestratorImpl serviceCloudOrchestrator) {
         super(serviceCloudOrchestrator);
-    }
-
-
-    @Override
-    public String getServiceName() {
-        return SERVICE_NAME;
     }
 
     @Override
@@ -39,7 +32,7 @@ public class UserVersionServiceClient extends AbstractServiceClient<VersionServi
             VersionRequest request = VersionRequest.newBuilder().build();
             return Optional.ofNullable(getNextServer().getVersion(request));
         } catch (Exception e) {
-            log.error("Error while fetching version [serviceTarget={}]", SERVICE_NAME);
+            log.error("Error while fetching version [serviceTarget={}]", getServiceName());
             return Optional.empty();
         }
     }

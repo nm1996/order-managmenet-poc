@@ -2,7 +2,7 @@ package com.nm.order.management.common.grpc;
 
 
 import com.nm.order.management.common.cloud.service.ServiceCloudOrchestrator;
-import com.nm.order.management.common.exception.ServiceUnavailable;
+import com.nm.order.management.common.grpc.exception.ServiceUnavailableException;
 import io.grpc.ManagedChannel;
 import jakarta.annotation.PostConstruct;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public abstract class AbstractServiceClient<T> implements AutoCloseable {
     public void establishConnection() {
         try {
             fetchAndCreateConnections();
-        } catch (ServiceUnavailable e) {
+        } catch (ServiceUnavailableException e) {
             logErrorMessage();
         }
     }
@@ -37,16 +37,16 @@ public abstract class AbstractServiceClient<T> implements AutoCloseable {
     public void tryToEstablishConnection() {
         try {
             fetchAndCreateConnections();
-        } catch (ServiceUnavailable e) {
+        } catch (ServiceUnavailableException e) {
             logErrorMessage();
         }
     }
 
-    private void fetchAndCreateConnections() throws ServiceUnavailable {
+    private void fetchAndCreateConnections() throws ServiceUnavailableException {
         Set<ManagedChannel> channelList = serviceCloudOrchestrator.getChannelsByServiceName(getServiceName());
         if (channelList.isEmpty()) {
-            log.error("Service unavailable [service={}]", getServiceName());
-            throw new ServiceUnavailable(String.format("%s unavailable", getServiceName()));
+            log.debug("Service unavailable [service={}]", getServiceName());
+            throw new ServiceUnavailableException(String.format("%s unavailable", getServiceName()));
         }
 
         channelList.stream()
@@ -58,10 +58,10 @@ public abstract class AbstractServiceClient<T> implements AutoCloseable {
     }
 
 
-    public T getNextServer() throws ServiceUnavailable {
+    public T getNextServer() throws ServiceUnavailableException {
         if (stubs.isEmpty()) {
             logErrorMessage();
-            throw new ServiceUnavailable("No server connections available");
+            throw new ServiceUnavailableException("No server connections available");
         }
 
         synchronized (stubs) {

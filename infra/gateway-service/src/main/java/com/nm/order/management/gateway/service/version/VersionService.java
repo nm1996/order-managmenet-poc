@@ -1,17 +1,16 @@
-package com.nm.order.management.gateway.service;
+package com.nm.order.management.gateway.service.version;
 
-import com.nm.order.management.gateway.api.model.response.GetVersionResponse;
+import com.nm.order.management.gateway.api.model.response.version.GetVersionResponse;
 import com.nm.order.management.gateway.infra.grpc.analyticservice.AnalyticVersionServiceClient;
 import com.nm.order.management.gateway.infra.grpc.notificationservice.NotificationVersionServiceClient;
 import com.nm.order.management.gateway.infra.grpc.orderservice.OrderVersionServiceClient;
 import com.nm.order.management.gateway.infra.grpc.productservice.ProductVersionServiceClient;
-import com.nm.order.management.gateway.infra.grpc.userservice.UserVersionServiceClient;
-import com.nm.order.management.proto_common.VersionResponse;
+import com.nm.order.management.gateway.infra.grpc.userservice.version.UserVersionServiceClient;
+import com.nm.order.management.proto_common.common.VersionResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

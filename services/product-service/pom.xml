@@ -11,7 +11,16 @@
     </parent>
 
     <artifactId>product-service</artifactId>
+    <packaging>jar</packaging>
 
+    <dependencies>
+        <!-- Database -->
+        <dependency>
+            <groupId>com.mysql</groupId>
+            <artifactId>mysql-connector-j</artifactId>
+        </dependency>
+        <!-- END -->
+    </dependencies>
 
 
 </project>
