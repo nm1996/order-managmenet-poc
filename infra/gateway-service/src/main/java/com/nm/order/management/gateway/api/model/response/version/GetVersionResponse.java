@@ -1,4 +1,4 @@
-package com.nm.order.management.gateway.api.model.response;
+package com.nm.order.management.gateway.api.model.response.version;
 
 import java.util.Map;
 

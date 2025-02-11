@@ -1,8 +1,8 @@
-package com.nm.order.management.userservice.server;
+package com.nm.order.management.userservice.infra.server;
 
-import com.nm.order.management.proto_common.VersionRequest;
-import com.nm.order.management.proto_common.VersionResponse;
-import com.nm.order.management.proto_common.VersionServiceGrpc.VersionServiceImplBase;
+import com.nm.order.management.proto_common.common.VersionRequest;
+import com.nm.order.management.proto_common.common.VersionResponse;
+import com.nm.order.management.proto_common.common.VersionServiceGrpc.VersionServiceImplBase;
 import com.nm.order.management.common.version.VersionConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +17,7 @@ public class VersionServerImpl extends VersionServiceImplBase {
 
     @Override
     public void getVersion(VersionRequest request, io.grpc.stub.StreamObserver<VersionResponse> responseObserver) {
-        log.info("Sending service version [service={}]", "user-service");
+        log.info("Sending service version");
         try {
             String version = versionConfig.getVersion();
 
@@ -27,9 +27,10 @@ public class VersionServerImpl extends VersionServiceImplBase {
 
             responseObserver.onNext(response);
         } catch (Exception e) {
-            log.error("Error while sending service version [service = {}, msg ={}]", "user-service", e.getMessage());
+            log.error("Error while sending service version [msg ={}]", e.getMessage());
             responseObserver.onError(e);
         } finally {
+            log.info("Finalizing sending service version");
             responseObserver.onCompleted();
         }
     }

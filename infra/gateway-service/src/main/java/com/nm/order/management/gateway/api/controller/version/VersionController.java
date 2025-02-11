@@ -1,7 +1,7 @@
-package com.nm.order.management.gateway.api.controller;
+package com.nm.order.management.gateway.api.controller.version;
 
-import com.nm.order.management.gateway.api.model.response.GetVersionResponse;
-import com.nm.order.management.gateway.service.VersionService;
+import com.nm.order.management.gateway.api.model.response.version.GetVersionResponse;
+import com.nm.order.management.gateway.service.version.VersionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

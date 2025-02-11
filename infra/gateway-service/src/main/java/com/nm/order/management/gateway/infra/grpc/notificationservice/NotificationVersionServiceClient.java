@@ -2,9 +2,9 @@ package com.nm.order.management.gateway.infra.grpc.notificationservice;
 
 import com.nm.order.management.common.cloud.service.implementation.ServiceCloudOrchestratorImpl;
 import com.nm.order.management.common.grpc.AbstractServiceClient;
-import com.nm.order.management.proto_common.VersionRequest;
-import com.nm.order.management.proto_common.VersionResponse;
-import com.nm.order.management.proto_common.VersionServiceGrpc;
+import com.nm.order.management.proto_common.common.VersionRequest;
+import com.nm.order.management.proto_common.common.VersionResponse;
+import com.nm.order.management.proto_common.common.VersionServiceGrpc;
 import io.grpc.ManagedChannel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

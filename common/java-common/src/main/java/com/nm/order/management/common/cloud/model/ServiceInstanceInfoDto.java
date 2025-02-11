@@ -1,6 +1,5 @@
 package com.nm.order.management.common.cloud.model;
 
-import io.grpc.ManagedChannel;
 import lombok.*;
 import org.springframework.cloud.client.ServiceInstance;
 

@@ -36,6 +36,7 @@ public class OrchestratorFunction {
     }
 
     public void removeUnavailableServices(ServiceCloudInfoDto cloudInfoDto, Set<String> serviceAddressForRemove) {
+        log.info("Removing unavailable services [serviceList={}]", serviceAddressForRemove);
         Map<String, ServiceInstanceInfoDto> infoDtoMap = cloudInfoDto.getInfoDtoMap();
 
         serviceAddressForRemove.forEach(

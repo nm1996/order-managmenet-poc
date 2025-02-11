@@ -1,8 +1,8 @@
 package com.nm.order.management.orderservice.server;
 
-import com.nm.order.management.proto_common.VersionRequest;
-import com.nm.order.management.proto_common.VersionResponse;
-import com.nm.order.management.proto_common.VersionServiceGrpc;
+import com.nm.order.management.proto_common.common.VersionRequest;
+import com.nm.order.management.proto_common.common.VersionResponse;
+import com.nm.order.management.proto_common.common.VersionServiceGrpc;
 import com.nm.order.management.common.version.VersionConfig;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

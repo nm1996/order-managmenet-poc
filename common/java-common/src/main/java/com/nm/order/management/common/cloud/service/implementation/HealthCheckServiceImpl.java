@@ -33,18 +33,22 @@ public class HealthCheckServiceImpl implements HealthCheckService {
     }
 
     private boolean check(String baseUrl) {
+        boolean isServiceUp;
         String healthUrl = baseUrl + healthActuator;
         try {
-            Mono<String> response = webClient.get()
+            String healthStatus = webClient.get()
                     .uri(healthUrl)
                     .retrieve()
-                    .bodyToMono(String.class);
+                    .bodyToMono(String.class)
+                    .block();
 
-            String healthStatus = response.block();
-            return healthStatus != null && healthStatus.contains("\"status\":\"UP\"");
+            isServiceUp = healthStatus != null && healthStatus.contains("\"status\":\"UP\"");
+            log.info("Checking service up success [service={}]", baseUrl);
         } catch (Exception e) {
             log.warn("Checking service up failed [msg={}]", e.getMessage());
-            return false;
+            isServiceUp = false;
         }
+
+        return isServiceUp;
     }
 }
